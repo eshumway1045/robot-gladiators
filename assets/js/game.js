@@ -8,6 +8,35 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 
+
+// game states
+// "win" - player robot has defeated all enemy-robots
+// * Fight all enemy-robots
+
+// "lose" - player robot has been defeated
+
+var startGame = function () {
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
+
+    for (var i = 0; i < enemyNames.length; i++) {
+        enemyHealth = 50;
+        fight(enemyNames[i]);
+
+        if (playerHealth > 0) {
+            window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+            var pickedEnemyName = enemyNames[i];
+            enemyHealth = 50;
+            fight(pickedEnemyName);
+        }
+        else {
+            window.alert("You have lost your robot in battle! Game Over!");
+            break;
+        }
+    }
+    endGame();
+}
 var fight = function (enemyName) {
     while (enemyHealth > 0 && playerHealth > 0) {
         //ask player if they'd like to fight or run
@@ -49,25 +78,23 @@ var fight = function (enemyName) {
 
     }
 }
-
-// game states
-// "win" - player robot has defeated all enemy-robots
-// * Fight all enemy-robots
-
-// "lose" - player robot has been defeated
-
-for (var i = 0; i < enemyNames.length; i++) {
-    enemyHealth = 50;
-    fight(enemyNames[i]);
-    
-    if(playerHealth > 0){
-        window.alert("Welcome to Robot Gladiators! Round " + ( i + 1 ));
-        var pickedEnemyName = enemyNames[i];
-        enemyHealth = 50;
-        fight(pickedEnemyName);
+var endGame = function () {
+    if (playerHealth > 0) {
+        window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
     }
     else {
-        window.alert("You have lost your robot in battle! Game Over!");
-        break;
+        window.alert("You've lost your robot in battle.");
     }
+    var playAgainConfirm = window.confirm("would you like to play again?");
+
+    if (playAgainConfirm) {
+        startGame()
+    }
+    else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+    }
+
 }
+
+
+startGame();
